@@ -1,0 +1,104 @@
+SELECT SUM(donation)
+FROM donation_data;
+
+SELECT MAX(DONATION)
+FROM donation_data
+
+SELECT MIN(DONATION)
+FROM donation_data
+
+SELECT gender, SUM(donation)
+FROM donation_data
+GROUP BY gender;
+
+SELECT gender, SUM(donation), COUNT(donation)
+FROM donation_data
+GROUP BY gender;
+
+SELECT SUM(donation), donation_frequency
+FROM donation_data, donor_data
+GROUP BY donation_frequency 
+
+SELECT job_field, SUM(donation), COUNT(donation)
+FROM donation_data, donor_data
+GROUP BY job_field
+
+SELECT COUNT(donation), donation_frequency, job_field
+FROM donation_data, donor_data
+WHERE donation_frequency = 'Never'
+GROUP BY donation_frequency, job_field
+
+SElECT COUNT(donation_frequency)
+FROM donor_data
+WHERE donation_frequency ='Never'
+
+SELECT SUM(donation), COUNT(donation)
+FROM donation_data
+WHERE donation > 200
+
+SELECT SUM(donation) AS total_donation, COUNT(donation) AS num_donations
+FROM donation_data
+WHERE donation < 200
+
+SELECT state,donation
+FROM donation_data
+ORDER BY donation DESC
+LIMIT 10
+
+SELECT state, donation
+FROM donation_data
+ORDER BY donation ASC
+LIMIT 10
+
+SELECT car, donation
+FROM donor_data, donation_data
+ORDER BY donation DESC
+LIMIT 10
+
+SELECT gender, job_field, car, min(donation)
+FROM donation_data, donor_data
+group by gender, job_field, car
+
+SELECT donation, donation_frequency,job_field
+FROM donation_data, donor_data
+GROUP BY donation, donation_frequency,job_field
+HAVING donor_data.donation_frequency IN ('Daily','Weekly','Monthly','Yearly','Often')
+
+SELECT donation_frequency, job_field
+FROM donor_data, Donation_data
+WHERE donor_data.donation_frequency IN ('Daily','Weekly','Monthly','Yearly')
+
+SELECT job_field, donation_frequency, max(donation)
+FROM donation_data, donor_data
+GROUP BY job_field, donation_frequency 
+HAVING donor_data.donation_frequency IN ('Daily','Weekly','Monthly','Yearly')
+
+SELECT first_name, job_field, donation, donation_frequency
+fROM donation_data, donor_data
+WHERE donation= 500 AND donation_frequency IN ('Daily','Weekly','Monthly','Yearly')
+
+SELECT first_name, last_name
+FROM donation_data
+WHERE first_name IN('Wallie', 'Beverlie')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

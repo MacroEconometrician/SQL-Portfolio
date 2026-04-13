@@ -1,0 +1,180 @@
+---This project was completed as a part of 10alytics introduction to POSTGRESQL course. For this project i extracted columns from a DVDrentals database 
+SELECT * --#everything
+FROM actor
+
+--to select a column(s) instead of the whole table
+SELECT actor_id , first_name , last_name
+FROM actor
+
+SELECT email, first_name , last_name
+FROM customer
+
+--Select distinct
+SELECT DISTINCT release_year
+FROM film
+
+SELECT DISTINCT rating 
+FROM film
+
+---LIMIT helps filter rows or limit the no of rows you see
+SELECT *
+FROM customer
+LIMIT 4
+
+--ORDER BY HELPS YOU SORT ROWS
+SELECT *
+FROM customer
+ORDER BY first_name ASC;
+
+---ORDER BY and LIMIT
+SELECT customer_id , amount
+FROM payment
+ORDER BY amount DESC
+LIMIT 10;
+
+--WHERE CLAUSE
+SELECT customer_id, First_name, Last_name
+FROM customer
+WHERE first_name = 'Jamie' AND last_name = 'rice'
+
+SELECT customer_id, amount, payment_date
+FROM payment
+WHERE amount<1 OR amount>8
+
+SELECT email, first_name, last_name
+FROM customer
+WHERE first_name = 'Nancy' AND last_name = 'Thomas'
+
+SELECT phone, address, address_id
+FROM address
+WHERE address = '259 Ipoh Drive'
+SELECT address_id, last_name
+FROM customer
+WHERE address_id = 432
+
+
+SELECT customer_id, rental_id, amount
+FROM payment
+WHERE amount BETWEEN 8 AND 9
+ORDER BY amount ASC
+LIMIT 30
+
+SELECT title, description
+FROM film
+WHERE title = 'Outlaw Hanky'
+
+SELECT customer_id, rental_id, amount
+FROM payment
+WHERE amount >=8 AND amount<=9
+ORDER BY amount DESC
+LIMIT 30
+
+SELECT amount, payment_date
+FROM payment
+WHERE payment_date BETWEEN 'FEBRUARY/1/2007' AND 'March/1/2007'
+
+SELECT customer_id, rental_id, return_date
+FROM rental
+WHERE customer_id IN (1,2)
+
+SELECT amount, payment_id
+FROM payment
+WHERE amount IN (7.99,8.99)
+
+--like operator
+SELECT first_name , last_name
+FROM customer
+WHERE first_name LIKE 'Jen%'
+
+SELECT first_name , last_name
+FROM customer
+WHERE first_name LIKE '%er'
+
+SELECT first_name , last_name
+FROM customer
+WHERE first_name NOT LIKE 'Jen%'
+
+--ILIKE  and LIKE
+SELECT first_name , last_name
+FROM customer
+WHERE first_name LIKE 'bar%' ---this will bring no data
+
+SELECT first_name , last_name
+FROM customer
+WHERE first_name ILIKE 'bar%'   ----ILIKE FUNCTION IS NOT CASE SENSITIVE AND WILL BRING RESULTS REGARDLESS OF THE CASE USED.
+
+SELECT first_name, last_name
+FROM actor
+WHERE first_name LIKE 'P%';
+
+---AVERAGE FUNCTIONS; AVG,SUM,COUNT,MIN,MAX
+SELECT SUM(amount)
+FROM payment
+
+SELECT MAX (amount)
+FROM payment
+
+--GROUP BY
+SELECT customer_id, SUM (amount)
+FROM payment
+GROUP BY customer_id
+
+SELECT staff_id , SUM (amount), COUNT (payment_id)
+FROM payment
+WHERE staff_id IN(1,2)
+GROUP BY staff_id
+
+SELECT AVG (replacement_cost), rating
+FROM film
+GROUP BY rating
+
+---HAVING CLAUSE:used in conjuction with group by
+SELECT customer_id , SUM(amount)
+FROM payment
+GROUP BY customer_id
+HAVING SUM (amount)>200
+
+SELECT rating, AVG(rental_rate)
+FROM film
+WHERE rating IN('PG', 'G','R')
+GROUP BY rating
+HAVING AVG(rental_rate)>3
+
+SELECT customer_id , COUNT(Payment_id)
+FROM payment
+GROUP BY customer_id
+HAVING COUNT(payment_id)>=40
+
+SELECT AVG(rental_duration), rating
+FROM film
+GROUP BY rating
+HAVING AVG(rental_duration)>5
+
+---INNERJOIN STATEMENT: used to join tables. 
+SELECT customer_id, first_name, last_name, address
+FROM customer
+JOIN address       ---CAN ALSO USE JOIN TO REP INNER JOIN
+  ON customer.address_id = address.address_id;
+  
+--LEFT JOIN: joins all rows in table A TO B
+SELECT title, inventory_id 
+FROM film
+LEFT JOIN inventory
+  ON film.film_id = inventory.film_id
+WHERE inventory_id IS null
+
+--FULL JOIN: HELPS BRINGS INFO FOR BOTH TABLE
+SELECT title, inventory_id 
+FROM film
+FULL JOIN inventory
+  ON film.film_id = inventory.film_id
+WHERE inventory_id IS null OR title IS null
+
+
+--ALIAS: ASSIGNS ALIAS TO COLUMN NAMES
+SELECT rating , AVG(rental_duration) AS avg_rentalduration
+FROM film
+GROUP BY rating
+HAVING AVG(rental_duration)>5
+
+
